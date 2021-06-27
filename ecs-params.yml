@@ -1,0 +1,22 @@
+version: 1
+task_definition:
+  task_execution_role: ecsTaskExecutionRole
+  ecs_network_mode: awsvpc 
+  task_size:
+    mem_limit: 0.5GB
+    cpu_limit: 256
+services:
+  app:
+    healthcheck:
+      test: ["CMD", "curl -f http://localhost"]
+    depends_on: redis
+
+run_params:
+  network_configuration:
+    awsvpc_configuration:
+      subnets:
+        - ${PICK_A_PLACE_SUBNET_1}
+        - ${PICK_A_PLACE_SUBNET_2}
+      security_groups:
+        - ${PICK_A_PLACE_SECURITY_GROUP}
+      assign_public_ip: ENABLED
