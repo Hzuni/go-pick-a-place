@@ -1,0 +1,58 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@godaddy/terminus": "^4.9.0",
+    "@react-google-maps/api": "^2.1.1",
+    "@reduxjs/toolkit": "^1.5.1",
+    "@testing-library/jest-dom": "^5.11.10",
+    "@testing-library/react": "^11.2.5",
+    "aws-sdk": "^2.875.0",
+    "axios": "^0.21.1",
+    "bootswatch": "^4.6.0",
+    "connect-redis": "^5.1.0",
+    "express-session": "^1.17.1",
+    "google-maps-react": "^2.0.6",
+    "gsap": "^3.6.1",
+    "react": "^17.0.2",
+    "react-bootstrap": "^1.6.0",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "redis": "^3.0.2",
+    "startbootstrap-simple-sidebar": "^5.1.0",
+    "web-vitals": "^1.1.1",
+    "winston": "^3.3.3"
+  },
+  "proxy": "http://localhost:3000",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "express": "NODENV=express nodemon bin/www"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.13.0"
+  }
+}

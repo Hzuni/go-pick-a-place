@@ -1,0 +1,50 @@
+#app-wrapper, #app {
+  height: 100%;
+}
+
+#wrapper {
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------
+   Map View
+-----------------------------------------------------*/
+#map {
+  position: relative;
+  width: 100%;
+}
+
+#autocomplete-box {
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  width: 240px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  outline: none;
+  text-overflow: ellipses;
+  position: absolute;
+  left: 50%;
+  margin-left: -120px;
+}
+/*
+#wheel-canvas {
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+}
+*/
+
+.disabled-link {
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------
+  Info Window
+-----------------------------------------------------*/
+
+#info-window-head {
+  font-weight: bold;
+}
