@@ -13,8 +13,16 @@ export const addPlace = createAsyncThunk(
 export const loadPlaces = createAsyncThunk(
     'placesList/loadPlaces',
     async (place) => {
-        const response = await axios.get('/api/place/list');
-        return response.data;
+        let response = await axios.get('/api/place/list').then(
+            (resp) => { return resp.data; },
+            (error) => {
+                return {
+                    places: [],
+                    placesListId: ''
+                };
+            }
+        );
+        return response;
     }
 );
 

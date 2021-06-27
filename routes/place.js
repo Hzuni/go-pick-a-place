@@ -55,7 +55,7 @@ router.post('/list', async (req, res) => {
   }
 });
 
-router.get('/joinByCode', async(req, res) => {
+router.get('/joinByCode', async (req, res) => {
   let placesListId;
   if (req.query.placesListId) {
     placesListId = req.query.placesListId;
@@ -72,6 +72,22 @@ router.get('/joinByCode', async(req, res) => {
   }
 
   return res.sendStatus(200);
+});
+
+router.post('/reset', async (req, res) => {
+  let placesListId;
+  if (req.session.placesListId) {
+    // placesListId = req.session.placesListId;
+    req.session.destroy();
+  } else {
+    return res.sendStatus(404);
+  }
+
+  res.send({
+    places: [],
+    placesListId: ''
+
+  });
 });
 
 

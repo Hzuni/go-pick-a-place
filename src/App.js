@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  NavLink
+  NavLink,
+  withRouter
 } from "react-router-dom";
 
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -18,11 +19,15 @@ import InviteOthersModal from './InviteOthersModal';
 import './style.css'
 import { connect } from "react-redux";
 import { loadPlaces } from './placesListSlice';
+import axios from 'axios';
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
+    const { history } = this.props;
+    this.history = history
+
     this.state = {
       'sideBarToggled': false,
       'showPlacesListModal': false,
@@ -31,9 +36,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (!Array.isArray(this.props.places)) {
-      this.props.loadPlaces();
-    }
     setInterval(() => { this.props.loadPlaces(); }, 3000);// periodacly poll to see if any updates to the place list
     // has been made by anyone else, that's adding to the same list
   }
@@ -43,19 +45,25 @@ class App extends React.Component {
   }
 
   handleModalShow = () => {
-    this.setState({ 'showPlacesListModal': true});
+    this.setState({ 'showPlacesListModal': true });
   }
 
   handleModalClose = () => {
-    this.setState({ 'showPlacesListModal': false});
+    this.setState({ 'showPlacesListModal': false });
   }
 
   handleInviteModalShow = () => {
-    this.setState({ 'showInviteModal': true});
+    this.setState({ 'showInviteModal': true });
   }
 
   closeInviteModal = () => {
-    this.setState({ 'showInviteModal': false});
+    this.setState({ 'showInviteModal': false });
+  }
+
+  resetCurrentPick = () => {
+    axios.post('/api/place/reset').then((resp) => {
+      console.log("Starting new pick");
+    });
   }
 
 
@@ -70,14 +78,14 @@ class App extends React.Component {
                 className={`list-group-item list-group-item-action
                             ${this.props.code !== '' ? 'disabled' : ''}`}
                 activeClassName="active">
-                  Welcome
+                Welcome
                 </NavLink>
 
               <NavLink to="/add-places"
                 className={`list-group-item list-group-item-action
                             ${this.props.code !== '' ? '' : 'disabled'}`}
                 activeClassName="active">
-                  Add places
+                Add places
               </NavLink>
 
               <NavLink to="/pick-a-place"
@@ -85,7 +93,7 @@ class App extends React.Component {
                             ${this.props.places?.length > 3 ? '' : 'disabled'}`}
 
                 activeClassName="active">
-                  Pick a Place!
+                Pick a Place!
               </NavLink>
             </div>
           </div>
@@ -107,17 +115,20 @@ class App extends React.Component {
                   <Dropdown.Item
                     onClick={this.handleModalShow}
                     disabled={this.props.code === ''}
-                    >
-                      View current picks
+                  >
+                    View current picks
                   </Dropdown.Item>
                   <Dropdown.Item
                     onClick={this.handleInviteModalShow}
                     disabled={this.props.code === ''}
-                    >
-                      Invite others
+                  >
+                    Invite others
                   </Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item href="#">
+                  <Dropdown.Item
+                    onClick={this.resetCurrentPick}
+                    disabled={this.props.code === ''}
+                  >
                     Start new pick
                   </Dropdown.Item>
                 </DropdownButton>
@@ -126,22 +137,25 @@ class App extends React.Component {
             </nav>
             <div id="app-wrapper">
               <Switch>
-                <Route path="/add-places" component={MapView} />
+                <Route path="/add-places">
+                  <MapView
+                    code={this.props.code} />
+                </Route>
                 <Route path="/pick-a-place" component={WheelView} />
                 <Route path="/">
                   <HomeView
                     places={this.props.places}
-                    code={this.props.code}/>
+                    code={this.props.code} />
                 </Route>
               </Switch>
               <PlacesListModal
                 places={this.props.places}
                 show={this.state.showPlacesListModal}
-                onHide={this.handleModalClose}/>
+                onHide={this.handleModalClose} />
               <InviteOthersModal
                 code={this.props.code}
                 show={this.state.showInviteModal}
-                onHide={this.closeInviteModal}/>
+                onHide={this.closeInviteModal} />
             </div>
           </div>
         </div>
@@ -149,4 +163,5 @@ class App extends React.Component {
   }
 }
 
+// withRouter(HomeView);
 export default connect(state => ({ places: state.placesList.places, code: state.placesList.code }), { loadPlaces })(App);
