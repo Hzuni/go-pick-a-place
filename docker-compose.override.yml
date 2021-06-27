@@ -1,0 +1,10 @@
+version: '3.0'
+services:
+  app:
+    image: pick-a-place
+    depends_on:
+      - redis
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - PORT=3000

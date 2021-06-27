@@ -1,0 +1,25 @@
+version: '3.0'
+services: 
+  redis:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: pick-a-place
+        awslogs-region: ${PICK_A_PLACE_LOG_REGION}
+        awslogs-stream-prefix: redis
+
+  app:
+    image: ${PICK_A_PLACE_DOCKER_IMAGE}
+    ports:
+      - 80:80
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://localhost:6379
+      - PORT=80
+
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: pick-a-place
+        awslogs-region: ${PICK_A_PLACE_LOG_REGION}
+        awslogs-stream-prefix: pick-a-place

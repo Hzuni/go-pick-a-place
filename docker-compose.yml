@@ -1,0 +1,15 @@
+version: '3.0'
+services:
+  redis:
+    image: redis:latest
+
+  app:
+    command: node ./bin/www
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - AWS_ACCESS_KEY_ID=${PICK_A_PLACE_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${PICK_A_PLACE_ACCESS_KEY}
+
