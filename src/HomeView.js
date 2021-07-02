@@ -46,32 +46,22 @@ class HomeView extends React.Component {
             <h1 class="display-4">Welcome to Go Pick a Place!</h1>
             <p class="lead">
               Why not let a spinny color wheel choose instead
-        </p>
+            </p>
             <p>
             </p>
             <p class="lead">
               <div class="container">
-                <div class="row justify-content-center" >
+                <div class="row justify-content-center pb-5" >
                   <div class="col">
                     To get started enter a code sent to you or start your own pick
-              </div>
+                  </div>
                 </div>
               </div>
-              <br />
-              <br />
-              <br />
-              <br />
-              <div class="row justify-content-center" >
-                <div class="col-sm-2">
-                  <button id="create-new" class="btn btn-lg btn-primary" styles="width: 100%;" onClick={this.createNew}>Start a new pick!</button>
+              <div class="row justify-content-around" >
+                <div class="col-sm-3 my-2">
+                  <button id="create-new" class="btn btn-lg btn-primary" style={{ width: '100%' }}  onClick={this.createNew}>Start a new pick!</button>
                 </div>
-              </div>
-              <br />
-              <br />
-              <br />
-              <br />
-              <div class="row justify-content-center" >
-                <div class="col-sm-2">
+                <div class="col-sm-4 my-2">
                   <div class="form-group">
                     <input
                       class="form-control form-control-lg"
@@ -82,8 +72,8 @@ class HomeView extends React.Component {
                       id="join-by-code-input" />
                   </div>
                 </div>
-                <div class="col-sm-2" styles="width: 100%;">
-                  <button id="join-by-code" class="btn btn-lg btn-primary" styles="width: 100%;" onClick={this.joinByCode}>Join by Code</button>
+                <div class="col-sm-3 my-2" >
+                  <button id="join-by-code" class="btn btn-lg btn-primary" style={{ width: '100%' }} onClick={this.joinByCode}>Join by Code</button>
                 </div>
               </div>
             </p>
