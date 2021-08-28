@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React from 'react';
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
+import { setCode } from './placesListSlice';
 
 
 class HomeView extends React.Component {
@@ -18,6 +20,7 @@ class HomeView extends React.Component {
   createNew = () => {
     axios.post('/api/place/list').then((resp) => {
       if (resp.status === 200) {
+        this.props.setCode(resp.data.placesListId)
         this.history.push('/add-places');
       }
     });
@@ -30,6 +33,7 @@ class HomeView extends React.Component {
   joinByCode = () => {
     axios.get('/api/place/joinByCode', { params: { placesListId: this.state.joinByCodeField } }).then((resp) => {
       if (resp.status === 200) {
+        this.props.setCode(resp.data.placesListId)
         this.history.push('/add-places');
       }
     });
@@ -57,23 +61,37 @@ class HomeView extends React.Component {
                   </div>
                 </div>
               </div>
-              <div class="row justify-content-around" >
-                <div class="col-sm-3 my-2">
-                  <button id="create-new" class="btn btn-lg btn-primary" style={{ width: '100%' }}  onClick={this.createNew}>Start a new pick!</button>
-                </div>
-                <div class="col-sm-4 my-2">
-                  <div class="form-group">
-                    <input
-                      class="form-control form-control-lg"
-                      type="text"
-                      placeholder="code sent to you"
-                      value={this.state.joinByCodeField}
-                      onChange={this.handleChange}
-                      id="join-by-code-input" />
+              <div class="row justify-content-center" >
+                <div class="col-12 col-md-6">
+                  <div class="row">
+                      <div class="col-md-8">
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <div class="form-group">
+                          <input
+                            class="form-control form-control-lg"
+                            type="text"
+                            placeholder="code sent to you"
+                            value={this.state.joinByCodeField}
+                            onChange={this.handleChange}
+                            id="join-by-code-input" />
+                        </div>
+                      </div>
                   </div>
                 </div>
-                <div class="col-sm-3 my-2" >
-                  <button id="join-by-code" class="btn btn-lg btn-primary" style={{ width: '100%' }} onClick={this.joinByCode}>Join by Code</button>
+                <div class="col-12 col-md-4 mb-5" >
+                  <div class="row">
+                      <div class="col-md-8">
+                        <button id="join-by-code" class="btn btn-lg btn-primary" onClick={this.joinByCode}>Join by Code</button>
+                      </div>
+                      <div class="col-md-4">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-2" >
+                </div>
+                <div class="col-12 col-md-4 my-2">
+                  <button id="create-new" class="btn btn-lg btn-primary" style={{ width: '100%' }} onClick={this.createNew}>Start a new pick!</button>
                 </div>
               </div>
             </p>
@@ -84,4 +102,5 @@ class HomeView extends React.Component {
     }
   }
 }
-export default withRouter(HomeView);
+
+export default connect(null, { setCode })(withRouter(HomeView));

@@ -4,7 +4,7 @@ import './style.css';
 import { GoogleMap, LoadScript, Autocomplete, InfoWindow, Marker } from '@react-google-maps/api';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
-import { addPlace, loadPlaces } from './placesListSlice';
+import { setCode } from './placesListSlice';
 
 class MapView extends React.Component {
   constructor(props) {
@@ -156,4 +156,4 @@ render() {
 
 };
 
-export default connect(null, { addPlace, loadPlaces })(withRouter(MapView));
+export default connect(null, { setCode })(withRouter(MapView));

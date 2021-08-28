@@ -4,9 +4,10 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var { app, setupRoutes } = require('../app');
 var debug = require('debug')('pick-a-place:server');
 var http = require('http');
+var socketio = require("socket.io");
 const { createTerminus } = require('@godaddy/terminus')
 
 /**
@@ -21,13 +22,21 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+var io = socketio(server, {
+  cors: {
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST"]
+  }
+}
+);
+setupRoutes(io)
 
-function onSignal () {
+function onSignal() {
   console.log('server is starting cleanup')
   // start cleanup of resource, like databases or file descriptors
 }
 
-async function onHealthCheck () {
+async function onHealthCheck() {
   // checks if the system is healthy, like the db connection is live
   // resolves, if health, rejects if not
 }

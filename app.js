@@ -5,8 +5,9 @@ const bodyParser = require('body-parser');
 const redis = require('redis');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
-const place = require('./routes/place.js');
+const routes = require('./routes');
 const loggerService = require('./services/logger-service.js');
+const sharedSession = require("express-socket.io-session");
 
 
 
@@ -34,6 +35,7 @@ app.use(session(sess));
 
 app.use((req, res, done) => {
   logger.info(req.originalUrl);
+  // this is middleware you dummy use it for checking out ids
   done();
 });
 
@@ -43,14 +45,13 @@ app.use(bodyParser.json());
 
 if (env === 'production') {
   app.use(express.static(path.join(__dirname, 'build')));
-
-  /* app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-  });
-  */
 }
 
-app.use('/api/place', place);
-logger.info(`Running in mode ${env}`);
+const setupRoutes = (io) => {
+  io.use(sharedSession(session));
+  routes.setupRoutes(app, io);
+}
 
-module.exports = app;
+
+module.exports.app = app;
+module.exports.setupRoutes = setupRoutes

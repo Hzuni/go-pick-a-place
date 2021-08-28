@@ -38,6 +38,12 @@ export const placesListSlice = createSlice({
         code: '',
     },
     reducers: {
+        placeAdded: (state, action) => {
+            state.places = action.payload;
+        },
+        setCode: (state, action) => {
+            state.code = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(addPlace.pending, (state) => {
@@ -60,3 +66,4 @@ export const placesListSlice = createSlice({
 })
 
 export default placesListSlice.reducer
+export const { placeAdded, setCode } = placesListSlice.actions;

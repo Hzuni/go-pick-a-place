@@ -18,8 +18,9 @@ import PlacesListModal from './PlacesListModal';
 import InviteOthersModal from './InviteOthersModal';
 import './style.css'
 import { connect } from "react-redux";
-import { loadPlaces } from './placesListSlice';
+import { placeAdded } from './placesListSlice';
 import axios from 'axios';
+import io from "socket.io-client"
 
 class App extends React.Component {
 
@@ -36,7 +37,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(() => { this.props.loadPlaces(); }, 3000);// periodacly poll to see if any updates to the place list
+    // setInterval(() => { this.props.loadPlaces(); }, 3000);// periodacly poll to see if any updates to the place list
     // has been made by anyone else, that's adding to the same list
   }
 
@@ -64,6 +65,17 @@ class App extends React.Component {
     axios.post('/api/place/reset').then((resp) => {
       console.log("Starting new pick");
     });
+  }
+
+  setupSocketIO = () => {
+     /*
+	   let socket = io.connect("http://localhost:3000");
+
+	   socket.on('placeAdded',(res)=>{
+		   console.dir(res)
+       this.props.placeAdded(res)
+     })
+     */
   }
 
 
@@ -145,7 +157,8 @@ class App extends React.Component {
                 <Route path="/">
                   <HomeView
                     places={this.props.places}
-                    code={this.props.code} />
+                    code={this.props.code}
+                    setupSocket={this.setupSocketIO} />
                 </Route>
               </Switch>
               <PlacesListModal
@@ -163,5 +176,5 @@ class App extends React.Component {
   }
 }
 
-// withRouter(HomeView);
-export default connect(state => ({ places: state.placesList.places, code: state.placesList.code }), { loadPlaces })(App);
+export default connect(state => ({ places: state.placesList.places, code: state.placesList.code }), { placeAdded })(App);
+
