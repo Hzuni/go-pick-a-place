@@ -32,7 +32,8 @@ class App extends React.Component {
     this.state = {
       'sideBarToggled': false,
       'showPlacesListModal': false,
-      'showInviteModal': false
+      'showInviteModal': false,
+      'socket': null
     }
   }
 
@@ -68,14 +69,7 @@ class App extends React.Component {
   }
 
   setupSocketIO = () => {
-     /*
-	   let socket = io.connect("http://localhost:3000");
-
-	   socket.on('placeAdded',(res)=>{
-		   console.dir(res)
-       this.props.placeAdded(res)
-     })
-     */
+    let socket = io.connect('http://localhost:3000');
   }
 
 

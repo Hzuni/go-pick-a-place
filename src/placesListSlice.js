@@ -26,6 +26,17 @@ export const loadPlaces = createAsyncThunk(
     }
 );
 
+export const addNewSocketItem = (socket, id, item) => {
+    return (dispatch) => {
+        let postData = {
+            id: id+1,
+            item: item,
+            completed: false
+        }
+        socket.emit('addItem', postData);
+    }
+}
+
 export const placesListSlice = createSlice({
 
     // Redux Toolkit allows us to write "mutating" logic in reducers. It

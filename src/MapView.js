@@ -88,7 +88,7 @@ render() {
   if (this.state?.currentPlace?.location !== undefined) {
     return (
       <LoadScript
-        googleMapsApiKey="AIzaSyBLchxsf6OEUT-MD3coEuBEJR3DAEXfArg"
+        googleMapsApiKey="AIzaSyA6S6jnOCifABS94mypmXmzvi6ehz4YApI"
         libraries={["places"]}
       >
         <GoogleMap

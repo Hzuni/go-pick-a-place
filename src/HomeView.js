@@ -21,6 +21,7 @@ class HomeView extends React.Component {
     axios.post('/api/place/list').then((resp) => {
       if (resp.status === 200) {
         this.props.setCode(resp.data.placesListId)
+        this.props.setupSocket();
         this.history.push('/add-places');
       }
     });
@@ -34,6 +35,7 @@ class HomeView extends React.Component {
     axios.get('/api/place/joinByCode', { params: { placesListId: this.state.joinByCodeField } }).then((resp) => {
       if (resp.status === 200) {
         this.props.setCode(resp.data.placesListId)
+        this.props.setupSocket();
         this.history.push('/add-places');
       }
     });

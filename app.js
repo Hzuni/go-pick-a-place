@@ -3,8 +3,8 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const redis = require('redis');
-const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
+const expressSession = require('express-session');
+const RedisStore = require('connect-redis')(expressSession);
 const routes = require('./routes');
 const loggerService = require('./services/logger-service.js');
 const sharedSession = require("express-socket.io-session");
@@ -12,26 +12,28 @@ const sharedSession = require("express-socket.io-session");
 
 
 const logger = loggerService.getLogger();
-const  redisUrl = process.env.REDIS_URL
+const redisUrl = process.env.REDIS_URL
 logger.info(`pick a place starting, attempting to start redis at ${redisUrl}`);
 const redisClient = redis.createClient(redisUrl);
 const env = process.env.NODE_ENV;
 
 const app = express();
 
-const sess = {
+let sessionArgs = {
   store: new RedisStore({ client: redisClient }),
   secret: 'injected_env_var',
   resave: false,
   cookie: {},
-};
+}
 
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1); // trust proxy
-  sess.cookie.secure = true; // serve secure cookies
+  sessionArgs.cookie.secure = true; // serve secure cookies
 }
 
-app.use(session(sess));
+const session = expressSession(sessionArgs);
+
+app.use(session);
 
 app.use((req, res, done) => {
   logger.info(req.originalUrl);
@@ -49,7 +51,8 @@ if (env === 'production') {
 
 const setupRoutes = (io) => {
   io.use(sharedSession(session));
-  routes.setupRoutes(app, io);
+  io.on("connection", routes.placesSocket.initializeSocket);
+  app.use('/api/place', routes.placesRouter)
 }
 
 

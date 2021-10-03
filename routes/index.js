@@ -1,13 +1,8 @@
-const places = require('./places.js');
+const placesRouter = require('./places');
+const placesSocket = require('./placesSocket');
+const loggerService = require('../services/logger-service');
+const dynamoService = require('../services/dynamo-service');
 
-const setupRoutes = (app, io) => {
 
-  io.on("connection", function (socket) {
-    socket.join(socket.session.placesListId);
-
-  });
-
-  app.use('/api/place', places.setupRouter(io));
-
-}
-module.exports.setupRoutes = setupRoutes;
+module.exports.placesRouter = placesRouter
+module.exports.placesSocket = placesSocket;
